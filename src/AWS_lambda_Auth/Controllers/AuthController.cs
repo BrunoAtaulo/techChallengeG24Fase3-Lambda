@@ -87,12 +87,12 @@ public class AuthController : ControllerBase
         return Ok(token);
     }
 
-    [HttpGet("ss")]
+    //[HttpGet("ss")]
  
-    public async Task<IActionResult> ss()
-    {
-        var token = _authService.GetChaves();
-        return Ok(token);
-    }
+    //public async Task<IActionResult> ss()
+    //{
+    //    var token = _authService.GetChaves();
+    //    return Ok(token);
+    //}
 }
 
