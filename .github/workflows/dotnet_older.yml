@@ -61,5 +61,5 @@ jobs:
         env:
             COGNITO_CLIENT_ID: ${{ secrets.COGNITO_CLIENT_ID }}
             COGNITO_USER_POOL_ID: ${{ secrets.COGNITO_USER_POOL_ID }}
-        run: dotnet lambda deploy-serverless -sn AWSlambdaAuth -sb s3lambdaapplication -t serverless.template --region eu-north-1 --parameter-overrides CognitoClientId=$COGNITO_CLIENT_ID CognitoUserPoolId=$COGNITO_USER_POOL_ID
+        run: dotnet lambda deploy-serverless -sn AWSlambdaAuth -sb s3lambdafiap -t serverless.template --region eu-north-1 --parameter-overrides CognitoClientId=$COGNITO_CLIENT_ID CognitoUserPoolId=$COGNITO_USER_POOL_ID
 
