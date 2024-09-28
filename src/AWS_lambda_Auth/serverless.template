@@ -1,0 +1,63 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "Uma aplicação AWS Serverless que usa o framework ASP.NET Core rodando no Amazon Lambda.",
+  "Parameters": {
+    "CognitoClientId": {
+      "Type": "String",
+      "Description": "ID do Cliente Cognito"
+      
+    },
+    "CognitoUserPoolId": {
+      "Type": "String",
+      "Description": "ID do Pool de Usuários Cognito"
+      
+    }
+  },
+  "Resources": {
+    "AspNetCoreFunction": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "AWS_lambda_Auth",
+        "Runtime": "dotnet8",
+        "CodeUri": "",
+        "MemorySize": 512,
+        "Timeout": 30,
+        "Role": null,
+        "Policies": [
+          "AWSLambda_FullAccess"
+        ],
+        "Environment": {
+          "Variables": {
+            "CognitoClientId": { "Ref": "CognitoClientId" },
+            "CognitoUserPoolId": { "Ref": "CognitoUserPoolId" }
+          }
+        },
+        "Events": {
+          "ProxyResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/{proxy+}",
+              "Method": "ANY"
+            }
+          },
+          "RootResource": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/",
+              "Method": "ANY"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "ApiURL": {
+      "Description": "URL do endpoint da API para o ambiente de Produção",
+      "Value": {
+        "Fn::Sub": "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+      }
+    }
+  }
+}
