@@ -57,16 +57,7 @@ jobs:
       - name: Install AWS CLI
         run: dotnet tool install -g Amazon.Lambda.Tools
       
-      # Debugging step to print variable values
-      - name: Print Cognito Variables
-        run: |
-          echo "CognitoClientId: $CognitoClientId"
-          echo "CognitoUserPoolId: $CognitoUserPoolId"
-        # Mask secrets from appearing in the logs
-        env:
-          CognitoClientId: ${{ secrets.COGNITO_CLIENT_ID }}
-          CognitoUserPoolId: ${{ secrets.COGNITO_USER_POOL_ID }}
-
+     
       - name: Deploy to AWS Lambda
         run: dotnet lambda deploy-serverless -sn AWSlambdaAuth -sb s3lambdafiap -t serverless.template --region us-east-1 --parameter-overrides CognitoClientId=${{ secrets.COGNITO_CLIENT_ID }} CognitoUserPoolId=${{ secrets.COGNITO_USER_POOL_ID }}
 
